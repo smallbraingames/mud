@@ -1,3 +1,4 @@
+import { JsonRpcProvider } from "@ethersproject/providers";
 import {
   Ack,
   ack,
@@ -10,29 +11,28 @@ import {
   SystemCall,
 } from "@latticexyz/network";
 import {
-  Components,
-  World,
-  Schema,
-  Type,
-  getComponentValue,
-  removeComponent,
-  setComponent,
-  getComponentEntities,
-  getComponentValueStrict,
   Component,
-  updateComponent,
+  Components,
   Entity,
+  getComponentEntities,
+  getComponentValue,
+  getComponentValueStrict,
+  removeComponent,
+  Schema,
+  setComponent,
+  Type,
+  updateComponent,
+  World,
 } from "@latticexyz/recs";
-import { isDefined, toEthAddress } from "@latticexyz/utils";
 import { Component as SolecsComponent } from "@latticexyz/solecs";
 import ComponentAbi from "@latticexyz/solecs/abi/Component.sol/Component.json";
-import { Contract, BigNumber, Signer } from "ethers";
-import { JsonRpcProvider } from "@ethersproject/providers";
+import { StoreConfig } from "@latticexyz/store";
+import { createDatabaseClient } from "@latticexyz/store-cache";
+import { isDefined, toEthAddress } from "@latticexyz/utils";
+import { BigNumber, Contract, Signer } from "ethers";
 import { IComputedValue } from "mobx";
 import { filter, map, Observable, Subject, timer } from "rxjs";
 import { DecodedNetworkComponentUpdate, DecodedSystemCall } from "./types";
-import { StoreConfig } from "@latticexyz/store";
-import { createDatabaseClient } from "@latticexyz/store-cache";
 
 export function createDecodeNetworkComponentUpdate<C extends Components>(
   world: World,
@@ -191,7 +191,7 @@ export function applyNetworkUpdates<C extends Components, S extends StoreConfig>
         const entity = update.entity ?? world.registerEntity({ id: update.entity });
         const componentKey = mappings[update.component];
         if (!componentKey) {
-          console.warn("Unknown component:", update);
+          // console.warn("Unknown component:", update);
           continue;
         }
         const component = components[componentKey] as Component<Schema>;

@@ -1,10 +1,10 @@
 import { Components, ComponentValue, Entity, SchemaOf } from "@latticexyz/recs";
-import { packTuple, transformIterator, unpackTuple } from "@latticexyz/utils";
-import { initCache } from "../initCache";
 import { ECSStateReply } from "@latticexyz/services/ecs-snapshot";
+import { packTuple, transformIterator, unpackTuple } from "@latticexyz/utils";
+import { Subject } from "rxjs";
+import { initCache } from "../initCache";
 import { NetworkComponentUpdate, NetworkEvents } from "../types";
 import { debug as parentDebug } from "./debug";
-import { Subject } from "rxjs";
 
 const debug = parentDebug.extend("CacheStore");
 
@@ -78,7 +78,7 @@ export function storeEvent<Cm extends Components>(
     const currentValue = state.get(cacheKey);
     state.set(cacheKey, { ...initialValue, ...currentValue, ...partialValue });
   } else if (value === undefined) {
-    console.log("deleting key", cacheKey);
+    // console.log("deleting key", cacheKey);
     state.delete(cacheKey);
   } else {
     state.set(cacheKey, value);

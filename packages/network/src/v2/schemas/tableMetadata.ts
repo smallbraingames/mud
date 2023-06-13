@@ -1,9 +1,9 @@
+import { IStore } from "@latticexyz/store/types/ethers-contracts/IStore.sol/IStore";
 import { TableId } from "@latticexyz/utils";
 import { Contract, utils } from "ethers";
-import { metadataTableId, schemaTableId, TableMetadata } from "../common";
+import { TableMetadata, metadataTableId, schemaTableId } from "../common";
 import { decodeData } from "./decodeData";
 import { registerSchema } from "./tableSchemas";
-import { IStore } from "@latticexyz/store/types/ethers-contracts/IStore.sol/IStore";
 
 // worldAddress:tableId => metadata
 // TODO: add chain ID to namespace?
@@ -41,7 +41,7 @@ export function registerMetadata(
   }
 
   if (metadata) {
-    console.log("registering metadata for table", { table: table.toString(), metadata, world: world.address });
+    // console.log("registering metadata for table", { table: table.toString(), metadata, world: world.address });
     const metadataPromise = Promise.resolve(metadata);
     metadataCache[cacheKey] = metadataPromise;
     return metadataPromise;
@@ -54,7 +54,7 @@ export function registerMetadata(
     return Promise.resolve(undefined);
   }
 
-  console.log("fetching metadata for table", { table: table.toString(), world: world.address });
+  // console.log("fetching metadata for table", { table: table.toString(), world: world.address });
   const metadataPromise = Promise.all([
     registerSchema(world, metadataTableId),
     // TODO: figure out how to pass in rawSchema, it was giving me "incorrect length" errors before
