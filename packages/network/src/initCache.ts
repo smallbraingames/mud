@@ -1,6 +1,8 @@
 import { arrayToIterator, deferred, mergeIterators, transformIterator } from "@latticexyz/utils";
+import fakeIndexedDb from "fake-indexeddb";
 
-const indexedDB = self.indexedDB;
+const indexedDB = typeof self === "undefined" ? fakeIndexedDb : self.indexedDB;
+
 const VERSION = 2;
 
 /**
