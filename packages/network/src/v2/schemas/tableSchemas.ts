@@ -1,8 +1,8 @@
-import { Contract } from "ethers";
+import { IStore } from "@latticexyz/store/types/ethers-contracts/IStore.sol/IStore";
 import { TableId } from "@latticexyz/utils";
+import { Contract } from "ethers";
 import { TableSchema } from "../common";
 import { decodeSchema } from "./decodeSchema";
-import { IStore } from "@latticexyz/store/types/ethers-contracts/IStore.sol/IStore";
 
 // worldAddress:tableId => schema
 // TODO: add chain ID to namespace?
@@ -37,7 +37,6 @@ export function registerSchema(world: Contract, table: TableId, rawSchema?: stri
   }
 
   if (rawSchema) {
-    console.log("registering schema for table", { table: table.toString(), world: world.address, rawSchema });
     const schema = Promise.resolve(decodeSchema(rawSchema));
     schemaCache[cacheKey] = schema;
     return schema;
@@ -45,7 +44,6 @@ export function registerSchema(world: Contract, table: TableId, rawSchema?: stri
 
   // TODO: populate from ECS cache before fetching from RPC
 
-  console.log("fetching schema for table", { table: table.toString(), world: world.address });
   const store = world as IStore;
   const rawKeySchemaPromise = store.getKeySchema(table.toHexString());
   const rawValueSchemaPromise = store.getSchema(table.toHexString());

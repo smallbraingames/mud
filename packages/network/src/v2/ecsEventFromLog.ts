@@ -1,14 +1,14 @@
-import { Contract, utils } from "ethers";
-import { Log } from "@ethersproject/providers";
 import { LogDescription } from "@ethersproject/abi";
+import { Log } from "@ethersproject/providers";
 import { TableId } from "@latticexyz/utils";
-import { NetworkComponentUpdate, NetworkEvents } from "../types";
-import { decodeStoreSetRecord } from "./decodeStoreSetRecord";
-import { decodeStoreSetField } from "./decodeStoreSetField";
-import { keyTupleToEntityID } from "./keyTupleToEntityID";
+import { Contract, utils } from "ethers";
 import * as devObservables from "../dev/observables";
-import { registerSchema } from "./schemas/tableSchemas";
+import { NetworkComponentUpdate, NetworkEvents } from "../types";
+import { decodeStoreSetField } from "./decodeStoreSetField";
+import { decodeStoreSetRecord } from "./decodeStoreSetRecord";
+import { keyTupleToEntityID } from "./keyTupleToEntityID";
 import { decodeKeyTuple } from "./schemas/decodeKeyTuple";
+import { registerSchema } from "./schemas/tableSchemas";
 
 export const ecsEventFromLog = async (
   chainId: number,
@@ -108,7 +108,6 @@ export const ecsEventFromLog = async (
   }
 
   if (name === "StoreSetField") {
-    console.log("set field");
     const { indexedValues, indexedInitialValues, namedValues, namedInitialValues, indexedKey, namedKey } =
       await decodeStoreSetField(contract, tableId, args.key, args.schemaIndex, args.data);
     return {
